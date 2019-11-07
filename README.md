@@ -3,9 +3,9 @@
 ## About
 Easily search and remove orphan RAW files that don't have corresponding / matching JPG in same directory, and vice versa.
 
-![](dRAW/ressources/pictures/demo_1.PNG)
+![](dRAW/resources/pictures/demo_1.PNG)
 
-![](dRAW/ressources/pictures/demo_2.PNG)
+![](dRAW/resources/pictures/demo_2.PNG)
 
 ## Features
 - Delete / move to recycle bin / archive :
@@ -86,20 +86,24 @@ To add more supported file formats :
 	<value>
 		<ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 			xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-			<string>3FR (Hasselblad)</string>
-			<string>ARI (Arri_Alexa)</string>
-			<string>ARW (Sony)</string>
-			<string>BAY (Casio)</string>
-			<string>BRAW (Blackmagic Design)</string>
-			<string>BMP (Windows bitmap)</string>
+			<string>CR2 (Canon)</string>
+			<string>CR3 (Canon)</string>
+			<string>CRW (Canon)</string>
+			<string>DNG (Generic)</string>
+			<string>RAW (Generic)</string>
+			<string>RW2 (Panasonic)</string>
+			<string>NEF (Nikon)</string>
+			<string>NRW (Nikon)</string>
+			...
+			<string>YOUR ADDITIONAL FILE EXTENSION GOES HERE</string>
 			...
 		</ArrayOfString>
 	</value>
 </setting>
 ...
 ```
-3. Save, restart `dRAW`, and enjoy
-2. Create a pull request :wink:
+2. Save, restart `dRAW`, and enjoy
+3. Create a pull request :wink:
 
 ## Requirements
 - Microsoft [.NET Framework 4](https://www.microsoft.com/en-US/download/details.aspx?id=17851)
