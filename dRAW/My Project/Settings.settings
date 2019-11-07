@@ -1,0 +1,87 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
+  <Profiles />
+  <Settings>
+    <Setting Name="FileFormats" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;3FR (Hasselblad)&lt;/string&gt;
+  &lt;string&gt;ARI (Arri_Alexa)&lt;/string&gt;
+  &lt;string&gt;ARW (Sony)&lt;/string&gt;
+  &lt;string&gt;BAY (Casio)&lt;/string&gt;
+  &lt;string&gt;BRAW (Blackmagic Design)&lt;/string&gt;
+  &lt;string&gt;BMP (Windows bitmap)&lt;/string&gt;
+  &lt;string&gt;CAP (Phase One)&lt;/string&gt;
+  &lt;string&gt;CR2 (Canon)&lt;/string&gt;
+  &lt;string&gt;CR3 (Canon)&lt;/string&gt;
+  &lt;string&gt;CRI (Cintel)&lt;/string&gt;
+  &lt;string&gt;CRW (Canon)&lt;/string&gt;
+  &lt;string&gt;DC2 (Kodak)&lt;/string&gt;
+  &lt;string&gt;DCR (Kodak)&lt;/string&gt;
+  &lt;string&gt;DCS (Kodak)&lt;/string&gt;
+  &lt;string&gt;DNG (Generic)&lt;/string&gt;
+  &lt;string&gt;DRF (Kodak)&lt;/string&gt;
+  &lt;string&gt;EIP (Phase One)&lt;/string&gt;
+  &lt;string&gt;ERF (Epson)&lt;/string&gt;
+  &lt;string&gt;FFF (Imacon, Hasselblad)&lt;/string&gt;
+  &lt;string&gt;GIF (Graphics Interchange Format)&lt;/string&gt;
+  &lt;string&gt;GPR (GoPro)&lt;/string&gt;
+  &lt;string&gt;IIQ (Phase One)&lt;/string&gt;
+  &lt;string&gt;JPG (Joint Photographic Experts Group)&lt;/string&gt;
+  &lt;string&gt;JPEG (Joint Photographic Experts Group)&lt;/string&gt;
+  &lt;string&gt;K25 (Kodak)&lt;/string&gt;
+  &lt;string&gt;KC2 (Kodak)&lt;/string&gt;
+  &lt;string&gt;KDC (Kodak)&lt;/string&gt;
+  &lt;string&gt;MDC (Minolta, Agfa)&lt;/string&gt;
+  &lt;string&gt;MEF (Mamiya)&lt;/string&gt;
+  &lt;string&gt;MOS (Leaf)&lt;/string&gt;
+  &lt;string&gt;MRW (Minolta)&lt;/string&gt;
+  &lt;string&gt;NEF (Nikon)&lt;/string&gt;
+  &lt;string&gt;NRW (Nikon)&lt;/string&gt;
+  &lt;string&gt;ORF (Olympus)&lt;/string&gt;
+  &lt;string&gt;PDF (Portable Document Format)&lt;/string&gt;
+  &lt;string&gt;PEF (Pentax, Samsung)&lt;/string&gt;
+  &lt;string&gt;PNG (Portable Network Graphics)&lt;/string&gt;
+  &lt;string&gt;PSD (Adobe PhotoShop Document)&lt;/string&gt;
+  &lt;string&gt;PTX (Pentax)&lt;/string&gt;
+  &lt;string&gt;PXN (Logitech)&lt;/string&gt;
+  &lt;string&gt;QTK (Apple)&lt;/string&gt;
+  &lt;string&gt;R3D (RED Digital Cinema)&lt;/string&gt;
+  &lt;string&gt;RAF (Fuji)&lt;/string&gt;
+  &lt;string&gt;RAW (Generic)&lt;/string&gt;
+  &lt;string&gt;RDC (Rollei)&lt;/string&gt;
+  &lt;string&gt;RW2 (Panasonic)&lt;/string&gt;
+  &lt;string&gt;RWL (Leica)&lt;/string&gt;
+  &lt;string&gt;RWZ (Rawzor)&lt;/string&gt;
+  &lt;string&gt;SR2 (Sony)&lt;/string&gt;
+  &lt;string&gt;SRF (Sony)&lt;/string&gt;
+  &lt;string&gt;SRW (Samsung)&lt;/string&gt;
+  &lt;string&gt;STI (Sinar)&lt;/string&gt;
+  &lt;string&gt;TIF (Tagged Image File Format)&lt;/string&gt;
+  &lt;string&gt;TIFF (Tagged Image File Format)&lt;/string&gt;
+  &lt;string&gt;X3F (Sigma)&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="sFileFormatToDelete" Type="System.String" Scope="User">
+      <Value Profile="(Default)">RW2 (Panasonic)</Value>
+    </Setting>
+    <Setting Name="sFileFormatToMatch" Type="System.String" Scope="User">
+      <Value Profile="(Default)">JPG (Joint Photographic Experts Group)</Value>
+    </Setting>
+    <Setting Name="bExist" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="bRecursive" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="bMoveToRecycleBin" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="sInputFolderPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="bMoveToOrphanFolder" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

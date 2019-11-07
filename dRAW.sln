@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2046
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "dRAW", "dRAW\dRAW.vbproj", "{12254F8E-D5DA-4628-A9BD-E92C58F807FB}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "dRAW_Setup", "dRAW_Setup\dRAW_Setup.vdproj", "{23D04A69-E55F-4F26-90AF-66605A09AEEC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{12254F8E-D5DA-4628-A9BD-E92C58F807FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12254F8E-D5DA-4628-A9BD-E92C58F807FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12254F8E-D5DA-4628-A9BD-E92C58F807FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12254F8E-D5DA-4628-A9BD-E92C58F807FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23D04A69-E55F-4F26-90AF-66605A09AEEC}.Debug|Any CPU.ActiveCfg = Debug
+		{23D04A69-E55F-4F26-90AF-66605A09AEEC}.Debug|Any CPU.Build.0 = Debug
+		{23D04A69-E55F-4F26-90AF-66605A09AEEC}.Release|Any CPU.ActiveCfg = Release
+		{23D04A69-E55F-4F26-90AF-66605A09AEEC}.Release|Any CPU.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {28C22B72-5CC5-49D7-9B9F-331F82E8F629}
+	EndGlobalSection
+EndGlobal
