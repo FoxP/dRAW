@@ -93,6 +93,7 @@ Easily search and remove orphan RAW files that don't have corresponding / matchi
 ## Advanced
 To add more supported file formats :
 1. Edit `dRAW.exe.config` file :
+
 ```xml
 ...
 <setting name="FileFormats" serializeAs="Xml">
@@ -115,6 +116,7 @@ To add more supported file formats :
 </setting>
 ...
 ```
+
 2. Save, restart `dRAW`, and enjoy
 3. Create a pull request :wink:
 
