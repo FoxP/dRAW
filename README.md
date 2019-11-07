@@ -7,12 +7,14 @@ Easily search and remove orphan RAW files that don't have corresponding / matchi
 
 ![](dRAW/resources/pictures/demo_2.PNG)
 
+:warning: Use at your own risk.
+
 ## Usage
-1. Download [latest release](/releases/latest)
-	- Portable version : [dRAW_portable.zip](/releases/latest/download/dRAW_portable.zip)
-	- Setup installer : [dRAW_setup.msi](/releases/latest/download/dRAW_setup.msi)
+1. Download [latest release](https://github.com/FoxP/dRAW/releases/latest)
+	- Portable version : [dRAW_portable.zip](https://github.com/FoxP/dRAW/releases/latest/download/dRAW_portable.zip)
+	- Setup installer : [dRAW_setup.msi](https://github.com/FoxP/dRAW/releases/latest/download/dRAW_setup.msi)
 2. Select :
-	- file formats
+	- file formats (depends on your camera brand)
 	- actions to perform (delete, recycle bin, archive)
 	- Input directory (with / without recursivity inside)
 3. `Dry-run` to preview the result
