@@ -42,6 +42,7 @@ Public Class MainForm
         ToolTipMain.SetToolTip(cbDeletedFileFormat, "File format that will be deleted")
         ToolTipMain.SetToolTip(cbMatchingFileFormat, "File format to match / search for")
         ToolTipMain.SetToolTip(cbSwap, "Swap file formats")
+        ToolTipMain.SetToolTip(cbDryRun, "Do a trial run with no permanent changes : only preview.")
 
         'Delete / check for corrupted "user.config" file
 
@@ -110,8 +111,6 @@ Public Class MainForm
 
         AddHandler tbInputFolderPath.TextChanged, AddressOf tbInputFolderPath_TextChanged
 
-        'TODO : readme git
-
     End Sub
 
     Sub updateApplyTooltip()
@@ -157,7 +156,11 @@ Public Class MainForm
     End Sub
 
     Private Sub cbGetInputFolderPath_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cbGetInputFolderPath.Click
-        tbInputFolderPath.Text = getFolderFromDialog()
+        If Not tbInputFolderPath.Text = String.Empty Then
+            tbInputFolderPath.Text = getFolderFromDialog(, tbInputFolderPath.Text)
+        Else
+            tbInputFolderPath.Text = getFolderFromDialog()
+        End If
     End Sub
 
     Private Sub cbRecursive_CheckedChanged()
@@ -192,6 +195,11 @@ Public Class MainForm
 
     Private Sub cbApply_Click(sender As Object, e As EventArgs) Handles cbApply.Click, cbDryRun.Click
 
+        Dim bDryRun As Boolean
+        If sender Is cbDryRun Then
+            bDryRun = True
+        End If
+
         'Stop / abort
         If Not cbDeletedFileFormat.Enabled Then
             Try
@@ -199,7 +207,7 @@ Public Class MainForm
             Catch ex As Exception
                 'Oops
             End Try
-            Call lockOrUnlockUI(True)
+            Call lockOrUnlockUI(True, bDryRun)
             Exit Sub
         End If
 
@@ -208,10 +216,7 @@ Public Class MainForm
             If Directory.Exists(tbInputFolderPath.Text) Then
 
                 Dim filesDic As New List(Of TheFile)
-                Dim bDryRun As Boolean
-                If sender Is cbDryRun Then
-                    bDryRun = True
-                End If
+
                 If Not bDryRun Then
                     If MessageBox.Show(Me, If(cbMoveToRecycleBin.Checked, "Move to recycle bin", If(cbMoveToOrphanFolder.Checked, "Move to " & """" & "orphan" & """" & " directory(s)", "Delete")) & " " & cbDeletedFileFormat.Text.Substring(0, 4).Trim & " files if matching " & cbMatchingFileFormat.Text.Substring(0, 4).Trim & " " & If(rbExist.Checked, "exists", "does not exist") & If(tbInputFolderPath.Text <> String.Empty, " in " & """" & Path.GetFileName(tbInputFolderPath.Text) & """", "") & " directory" & If(cbRecursive.Checked, ", recursively", "") & "? " & vbNewLine & vbNewLine & """" & "OK" & """" & " to continue, " & """" & "Cancel" & """" & " to abort.", My.Application.Info.AssemblyName, MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = vbCancel Then
                         Exit Sub
@@ -225,9 +230,9 @@ Public Class MainForm
                 Dim sInputFolderPath As String = tbInputFolderPath.Text
                 Dim bExist As Boolean = rbExist.Checked
 
-                Call lockOrUnlockUI(False)
+                Call lockOrUnlockUI(False, bDryRun)
 
-                    Dim t As New Thread(Sub()
+                Dim t As New Thread(Sub()
 
                                             For Each sFilePathToDelete As String In GetFilesRecursive(sInputFolderPath, cbRecursive.Checked)
                                                 If Path.GetExtension(sFilePathToDelete).ToUpper = "." & sExtensionToDelete.ToUpper Then
@@ -247,10 +252,10 @@ Public Class MainForm
                                             Next
 
                                             If Me.InvokeRequired Then
-                                                Me.Invoke(Sub() Call lockOrUnlockUI(True))
+                                            Me.Invoke(Sub() Call lockOrUnlockUI(True, bDryRun))
                                             Else
-                                                Call lockOrUnlockUI(True)
-                                            End If
+                                            Call lockOrUnlockUI(True, bDryRun)
+                                        End If
 
                                             If Me.InvokeRequired Then
                                                 Me.Invoke(Sub() Call showReport(filesDic))
@@ -317,15 +322,23 @@ Public Class MainForm
         Call updateApplyTooltip()
     End Sub
 
-    Sub lockOrUnlockUI(ByVal bUnlock As Boolean)
+    Sub lockOrUnlockUI(ByVal bUnlock As Boolean, ByVal bDryRun As Boolean)
         If Not bUnlock Then
             pb.Enabled = True
             pb.Style = ProgressBarStyle.Marquee
-            cbApply.Text = "Stop"
+            If bDryRun Then
+                cbDryRun.Text = "Stop"
+            Else
+                cbApply.Text = "Stop"
+            End If
         Else
             pb.Enabled = False
             pb.Style = ProgressBarStyle.Blocks
-            cbApply.Text = "Apply"
+            If bDryRun Then
+                cbDryRun.Text = "Dry-run"
+            Else
+                cbApply.Text = "Apply"
+            End If
         End If
         cbDeletedFileFormat.Enabled = bUnlock
         cbMatchingFileFormat.Enabled = bUnlock
@@ -336,6 +349,11 @@ Public Class MainForm
         rbNotExist.Enabled = bUnlock
         cbRecursive.Enabled = bUnlock
         cbGetInputFolderPath.Enabled = bUnlock
+        If bDryRun Then
+            cbApply.Enabled = bUnlock
+        Else
+            cbDryRun.Enabled = bUnlock
+        End If
     End Sub
 
     Private Sub cbSwap_Click(sender As Object, e As EventArgs) Handles cbSwap.Click
