@@ -2,6 +2,7 @@
 
 ## About
 Easily search and remove orphan RAW files that don't have corresponding / matching JPG in same directory, and vice versa.
+Useful if you shoot RAW+JPG with your DSLR, review and delete the JPG, then want to delete the RAW counterparts.
 
 ![](dRAW/resources/pictures/demo_1.PNG)
 
@@ -126,7 +127,7 @@ To add more supported file formats :
 
 ## Todo
 - Localization
-- Multi-threading
+- Better multi-threading
 - More supported file formats
 
 ## Libraries
