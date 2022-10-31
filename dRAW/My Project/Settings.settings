@@ -2,6 +2,27 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
   <Profiles />
   <Settings>
+    <Setting Name="sFileFormatToDelete" Type="System.String" Scope="User">
+      <Value Profile="(Default)">RW2 (Panasonic)</Value>
+    </Setting>
+    <Setting Name="sFileFormatToMatch" Type="System.String" Scope="User">
+      <Value Profile="(Default)">JPG (Joint Photographic Experts Group)</Value>
+    </Setting>
+    <Setting Name="bExist" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="bRecursive" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="bMoveToRecycleBin" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="sDeletedFolderPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="bMoveToOrphanFolder" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
     <Setting Name="FileFormats" Type="System.Collections.Specialized.StringCollection" Scope="Application">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
@@ -62,25 +83,10 @@
   &lt;string&gt;X3F (Sigma)&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
-    <Setting Name="sFileFormatToDelete" Type="System.String" Scope="User">
-      <Value Profile="(Default)">RW2 (Panasonic)</Value>
-    </Setting>
-    <Setting Name="sFileFormatToMatch" Type="System.String" Scope="User">
-      <Value Profile="(Default)">JPG (Joint Photographic Experts Group)</Value>
-    </Setting>
-    <Setting Name="bExist" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="bRecursive" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="bMoveToRecycleBin" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="sInputFolderPath" Type="System.String" Scope="User">
+    <Setting Name="sMatchingFolderPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="bMoveToOrphanFolder" Type="System.Boolean" Scope="User">
+    <Setting Name="bSameFolderPath" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>

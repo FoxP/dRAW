@@ -35,13 +35,15 @@ Public Class MainForm
         Me.Text = My.Application.Info.AssemblyName & " - v" & My.Application.Info.Version.ToString
 
         ToolTipMain.SetToolTip(cbAbout, "About " & My.Application.Info.AssemblyName)
-        ToolTipMain.SetToolTip(cbGetInputFolderPath, "Select a directory")
+        ToolTipMain.SetToolTip(cbGetDeletedFolderPath, "Select a directory")
+        ToolTipMain.SetToolTip(cbGetMatchingFolderPath, "Select a directory")
         ToolTipMain.SetToolTip(cbRecursive, "Recursivity in selected directory")
         ToolTipMain.SetToolTip(cbMoveToRecycleBin, "Don't delete permanently")
         ToolTipMain.SetToolTip(cbMoveToOrphanFolder, "Move files to " & """" & "orphan" & """" & " directory(s)")
         ToolTipMain.SetToolTip(cbDeletedFileFormat, "File format that will be deleted")
         ToolTipMain.SetToolTip(cbMatchingFileFormat, "File format to match / search for")
         ToolTipMain.SetToolTip(cbSwap, "Swap file formats")
+        ToolTipMain.SetToolTip(cbSame, "Same directory as left input directory")
         ToolTipMain.SetToolTip(cbDryRun, "Do a trial run with no permanent changes : only preview.")
 
         'Delete / check for corrupted "user.config" file
@@ -105,11 +107,23 @@ Public Class MainForm
 
         AddHandler cbMoveToOrphanFolder.CheckedChanged, AddressOf cbMoveToOrphanedFolder_CheckedChanged
 
-        If Not My.Settings.sInputFolderPath = String.Empty Then
-            tbInputFolderPath.Text = My.Settings.sInputFolderPath
+        If Not My.Settings.sDeletedFolderPath = String.Empty Then
+            tbDeletedFolderPath.Text = My.Settings.sDeletedFolderPath
         End If
 
-        AddHandler tbInputFolderPath.TextChanged, AddressOf tbInputFolderPath_TextChanged
+        AddHandler tbDeletedFolderPath.TextChanged, AddressOf tbDeletedFolderPath_TextChanged
+
+        If Not My.Settings.sMatchingFolderPath = String.Empty Then
+            tbMatchingFolderPath.Text = My.Settings.sMatchingFolderPath
+        End If
+
+        AddHandler tbMatchingFolderPath.TextChanged, AddressOf tbMatchingFolderPath_TextChanged
+
+        If My.Settings.bSameFolderPath Then
+            cbSame.Checked = True
+        End If
+
+        AddHandler cbSame.CheckedChanged, AddressOf cbSame_CheckedChanged
 
     End Sub
 
@@ -117,7 +131,7 @@ Public Class MainForm
         If Not cbDeletedFileFormat.Enabled Then
             ToolTipMain.SetToolTip(cbApply, "Stop " & If(cbRecursive.Checked, "(recursively) ", "") & If(cbMoveToRecycleBin.Checked, "moving files to recycle bin", If(cbMoveToOrphanFolder.Checked, "moving files to " & """" & "orphan" & """" & " directory(s)", "deleting files")) & "...")
         Else
-            ToolTipMain.SetToolTip(cbApply, If(cbMoveToRecycleBin.Checked, "Move to recycle bin", If(cbMoveToOrphanFolder.Checked, "Move to " & """" & "orphan" & """" & " directory(s)", "Delete")) & " " & cbDeletedFileFormat.Text.Substring(0, 4).Trim & " files if matching " & cbMatchingFileFormat.Text.Substring(0, 4).Trim & " " & If(rbExist.Checked, "exists", "does not exist") & If(tbInputFolderPath.Text <> String.Empty, " in " & """" & Path.GetFileName(tbInputFolderPath.Text) & """", "") & If(cbRecursive.Checked, ", recursively", "") & ".")
+            ToolTipMain.SetToolTip(cbApply, If(cbMoveToRecycleBin.Checked, "Move to recycle bin", If(cbMoveToOrphanFolder.Checked, "Move to " & """" & "orphan" & """" & " directory(s)", "Delete")) & " " & cbDeletedFileFormat.Text.Substring(0, 4).Trim & " files" & If(tbDeletedFolderPath.Text <> String.Empty, " from " & """" & Path.GetFileName(tbDeletedFolderPath.Text) & """" & " directory", "") & " if matching " & cbMatchingFileFormat.Text.Substring(0, 4).Trim & " " & If(rbExist.Checked, "exists", "does not exist") & If(tbMatchingFolderPath.Text <> String.Empty, " in " & """" & Path.GetFileName(tbMatchingFolderPath.Text) & """" & " directory", "") & If(cbRecursive.Checked, ", recursively", "") & ".")
         End If
     End Sub
 
@@ -155,11 +169,24 @@ Public Class MainForm
         End If
     End Sub
 
-    Private Sub cbGetInputFolderPath_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cbGetInputFolderPath.Click
-        If Not tbInputFolderPath.Text = String.Empty Then
-            tbInputFolderPath.Text = getFolderFromDialog(, tbInputFolderPath.Text)
+    Private Sub cbGetDeletedFolderPath_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cbGetDeletedFolderPath.Click
+        If Not tbDeletedFolderPath.Text = String.Empty Then
+            tbDeletedFolderPath.Text = getFolderFromDialog(, tbDeletedFolderPath.Text)
         Else
-            tbInputFolderPath.Text = getFolderFromDialog()
+            tbDeletedFolderPath.Text = getFolderFromDialog()
+        End If
+    End Sub
+
+    Private Sub cbGetMatchingFolderPath_Click(sender As Object, e As EventArgs) Handles cbGetMatchingFolderPath.Click
+        If Not tbMatchingFolderPath.Text = String.Empty Then
+            tbMatchingFolderPath.Text = getFolderFromDialog(, tbMatchingFolderPath.Text)
+        Else
+            tbMatchingFolderPath.Text = getFolderFromDialog()
+        End If
+        If cbSame.Checked Then
+            If tbMatchingFolderPath.Text <> tbDeletedFolderPath.Text Then
+                cbSame.Checked = False
+            End If
         End If
     End Sub
 
@@ -189,8 +216,24 @@ Public Class MainForm
         End If
     End Sub
 
-    Private Sub tbInputFolderPath_TextChanged(sender As Object, e As EventArgs)
-        My.Settings.sInputFolderPath = tbInputFolderPath.Text
+    Private Sub cbSame_CheckedChanged(sender As Object, e As EventArgs) Handles cbSame.CheckedChanged
+        If cbSame.Checked Then
+            My.Settings.bSameFolderPath = True
+            tbMatchingFolderPath.Text = tbDeletedFolderPath.Text
+        Else
+            My.Settings.bSameFolderPath = False
+        End If
+    End Sub
+
+    Private Sub tbDeletedFolderPath_TextChanged(sender As Object, e As EventArgs)
+        My.Settings.sDeletedFolderPath = tbDeletedFolderPath.Text
+        If cbSame.Checked Then
+            tbMatchingFolderPath.Text = tbDeletedFolderPath.Text
+        End If
+    End Sub
+
+    Private Sub tbMatchingFolderPath_TextChanged(sender As Object, e As EventArgs)
+        My.Settings.sMatchingFolderPath = tbMatchingFolderPath.Text
     End Sub
 
     Private Sub cbApply_Click(sender As Object, e As EventArgs) Handles cbApply.Click, cbDryRun.Click
@@ -212,13 +255,15 @@ Public Class MainForm
         End If
 
         'Start / apply
-        If tbInputFolderPath.Text <> String.Empty Then
-            If Directory.Exists(tbInputFolderPath.Text) Then
+        If tbDeletedFolderPath.Text <> String.Empty And tbMatchingFolderPath.Text <> String.Empty Then
+            Dim bDeletedFolderPathExist As Boolean = Directory.Exists(tbDeletedFolderPath.Text)
+            Dim bMatchingFolderPathExist As Boolean = Directory.Exists(tbMatchingFolderPath.Text)
+            If bDeletedFolderPathExist And bMatchingFolderPathExist Then
 
                 Dim filesDic As New List(Of TheFile)
 
                 If Not bDryRun Then
-                    If MessageBox.Show(Me, If(cbMoveToRecycleBin.Checked, "Move to recycle bin", If(cbMoveToOrphanFolder.Checked, "Move to " & """" & "orphan" & """" & " directory(s)", "Delete")) & " " & cbDeletedFileFormat.Text.Substring(0, 4).Trim & " files if matching " & cbMatchingFileFormat.Text.Substring(0, 4).Trim & " " & If(rbExist.Checked, "exists", "does not exist") & If(tbInputFolderPath.Text <> String.Empty, " in " & """" & Path.GetFileName(tbInputFolderPath.Text) & """", "") & " directory" & If(cbRecursive.Checked, ", recursively", "") & "? " & vbNewLine & vbNewLine & """" & "OK" & """" & " to continue, " & """" & "Cancel" & """" & " to abort.", My.Application.Info.AssemblyName, MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = vbCancel Then
+                    If MessageBox.Show(Me, If(cbMoveToRecycleBin.Checked, "Move to recycle bin", If(cbMoveToOrphanFolder.Checked, "Move to " & """" & "orphan" & """" & " directory(s)", "Delete")) & " " & cbDeletedFileFormat.Text.Substring(0, 4).Trim & " files" & If(tbDeletedFolderPath.Text <> String.Empty, " from " & """" & Path.GetFileName(tbDeletedFolderPath.Text) & """" & " directory", "") & " if matching " & cbMatchingFileFormat.Text.Substring(0, 4).Trim & " " & If(rbExist.Checked, "exists", "does not exist") & If(tbMatchingFolderPath.Text <> String.Empty, " in " & """" & Path.GetFileName(tbMatchingFolderPath.Text) & """", "") & " directory" & If(cbRecursive.Checked, ", recursively", "") & "? " & vbNewLine & vbNewLine & """" & "OK" & """" & " to continue, " & """" & "Cancel" & """" & " to abort.", My.Application.Info.AssemblyName, MessageBoxButtons.OKCancel, MessageBoxIcon.Question) = vbCancel Then
                         Exit Sub
                     End If
                 End If
@@ -227,51 +272,66 @@ Public Class MainForm
                 Dim sExtensionToMatch As String = dicFileFormats(cbMatchingFileFormat.Text)
                 Dim bMoveToRecycleBin As Boolean = cbMoveToRecycleBin.Checked
                 Dim bMoveToOrphanFolder As Boolean = cbMoveToOrphanFolder.Checked
-                Dim sInputFolderPath As String = tbInputFolderPath.Text
+                Dim sDeletedFolderPath As String = tbDeletedFolderPath.Text
+                Dim sMatchingFolderPath As String = tbMatchingFolderPath.Text
                 Dim bExist As Boolean = rbExist.Checked
 
                 Call lockOrUnlockUI(False, bDryRun)
 
                 Dim t As New Thread(Sub()
 
-                                            For Each sFilePathToDelete As String In GetFilesRecursive(sInputFolderPath, cbRecursive.Checked)
-                                                If Path.GetExtension(sFilePathToDelete).ToUpper = "." & sExtensionToDelete.ToUpper Then
-                                                    Dim sFilePathToMatch As String = Path.Combine(Path.GetDirectoryName(sFilePathToDelete), Path.GetFileNameWithoutExtension(sFilePathToDelete)) & "." & sExtensionToMatch
-                                                    If bExist Then
-                                                        If File.Exists(sFilePathToMatch) Then
-                                                            Debug.Print(sExtensionToMatch & " found, will " & If(cbMoveToRecycleBin.Checked, "move to recycle bin", If(cbMoveToOrphanFolder.Checked, "move to " & """" & "orphan" & """" & " directory(s)", "delete")) & " " & sExtensionToDelete & " : " & sFilePathToDelete)
-                                                            Call deleteFile(bMoveToRecycleBin, bMoveToOrphanFolder, sFilePathToDelete, filesDic, bDryRun)
-                                                        End If
-                                                    Else
-                                                        If Not File.Exists(sFilePathToMatch) Then
-                                                            Debug.Print(sExtensionToMatch & " NOT found, will " & If(cbMoveToRecycleBin.Checked, "move to recycle bin", If(cbMoveToOrphanFolder.Checked, "move to " & """" & "orphan" & """" & " directory(s)", "delete")) & " " & sExtensionToDelete & " : " & sFilePathToDelete)
-                                                            Call deleteFile(bMoveToRecycleBin, bMoveToOrphanFolder, sFilePathToDelete, filesDic, bDryRun)
-                                                        End If
+                                        For Each sFilePathToDelete As String In GetFilesRecursive(sDeletedFolderPath, cbRecursive.Checked)
+                                            If Path.GetExtension(sFilePathToDelete).ToUpper = "." & sExtensionToDelete.ToUpper Then
+                                                Dim sFilePathToMatch As String = Path.Combine(Path.GetDirectoryName(sFilePathToDelete.Replace(sDeletedFolderPath, sMatchingFolderPath)), Path.GetFileNameWithoutExtension(sFilePathToDelete)) & "." & sExtensionToMatch
+                                                If bExist Then
+                                                    If File.Exists(sFilePathToMatch) Then
+                                                        Debug.Print(sExtensionToMatch & " found, will " & If(cbMoveToRecycleBin.Checked, "move to recycle bin", If(cbMoveToOrphanFolder.Checked, "move to " & """" & "orphan" & """" & " directory(s)", "delete")) & " " & sExtensionToDelete & " : " & sFilePathToDelete)
+                                                        Call deleteFile(bMoveToRecycleBin, bMoveToOrphanFolder, sFilePathToDelete, filesDic, bDryRun)
+                                                    End If
+                                                Else
+                                                    If Not File.Exists(sFilePathToMatch) Then
+                                                        Debug.Print(sExtensionToMatch & " NOT found, will " & If(cbMoveToRecycleBin.Checked, "move to recycle bin", If(cbMoveToOrphanFolder.Checked, "move to " & """" & "orphan" & """" & " directory(s)", "delete")) & " " & sExtensionToDelete & " : " & sFilePathToDelete)
+                                                        Call deleteFile(bMoveToRecycleBin, bMoveToOrphanFolder, sFilePathToDelete, filesDic, bDryRun)
                                                     End If
                                                 End If
-                                            Next
+                                            End If
+                                        Next
 
-                                            If Me.InvokeRequired Then
+                                        If Me.InvokeRequired Then
                                             Me.Invoke(Sub() Call lockOrUnlockUI(True, bDryRun))
-                                            Else
+                                        Else
                                             Call lockOrUnlockUI(True, bDryRun)
                                         End If
 
-                                            If Me.InvokeRequired Then
-                                                Me.Invoke(Sub() Call showReport(filesDic))
-                                            Else
-                                                Call showReport(filesDic)
-                                            End If
+                                        If Me.InvokeRequired Then
+                                            Me.Invoke(Sub() Call showReport(filesDic))
+                                        Else
+                                            Call showReport(filesDic)
+                                        End If
 
-                                        End Sub)
-                    t.IsBackground = True
-                    t.SetApartmentState(ApartmentState.STA)
-                    t.Start()
-                Else
-                    MessageBox.Show(Me, "Oops, can't find :" & vbNewLine & vbNewLine & tbInputFolderPath.Text, My.Application.Info.AssemblyName, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                    End Sub)
+                t.IsBackground = True
+                t.SetApartmentState(ApartmentState.STA)
+                t.Start()
+            Else
+                If (Not bDeletedFolderPathExist) And (Not bMatchingFolderPathExist) Then
+                    If cbSame.Checked Then
+                        MessageBox.Show(Me, "Oops, can't find :" & vbNewLine & vbNewLine & tbDeletedFolderPath.Text, My.Application.Info.AssemblyName, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Else
+                        MessageBox.Show(Me, "Oops, can't find :" & vbNewLine & vbNewLine & "- " & tbDeletedFolderPath.Text & vbNewLine & "- " & tbMatchingFolderPath.Text, My.Application.Info.AssemblyName, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
+                ElseIf (Not bDeletedFolderPathExist) Then
+                    MessageBox.Show(Me, "Oops, can't find :" & vbNewLine & vbNewLine & tbDeletedFolderPath.Text, My.Application.Info.AssemblyName, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                ElseIf (Not bMatchingFolderPathExist) Then
+                    MessageBox.Show(Me, "Oops, can't find :" & vbNewLine & vbNewLine & tbMatchingFolderPath.Text, My.Application.Info.AssemblyName, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
             End If
         Else
-            MessageBox.Show(Me, "Oops, empty input folder.", My.Application.Info.AssemblyName, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If tbDeletedFolderPath.Text = String.Empty And tbMatchingFolderPath.Text = String.Empty Then
+                MessageBox.Show(Me, "Oops, empty input directories.", My.Application.Info.AssemblyName, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Else
+                MessageBox.Show(Me, "Oops, empty input directory.", My.Application.Info.AssemblyName, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
         End If
 
     End Sub
@@ -345,10 +405,12 @@ Public Class MainForm
         cbMoveToRecycleBin.Enabled = bUnlock
         cbMoveToOrphanFolder.Enabled = bUnlock
         cbSwap.Enabled = bUnlock
+        cbSame.Enabled = bUnlock
         rbExist.Enabled = bUnlock
         rbNotExist.Enabled = bUnlock
         cbRecursive.Enabled = bUnlock
-        cbGetInputFolderPath.Enabled = bUnlock
+        cbGetDeletedFolderPath.Enabled = bUnlock
+        cbGetMatchingFolderPath.Enabled = bUnlock
         If bDryRun Then
             cbApply.Enabled = bUnlock
         Else
@@ -405,6 +467,5 @@ Public Class MainForm
         End Property
 
     End Class
-
 
 End Class
