@@ -187,8 +187,8 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:dRAW"
-        "ProductCode" = "8:{B00462A0-922A-47C8-AA3E-32C3929E72FE}"
-        "PackageCode" = "8:{BF469F54-43C9-4DE6-A5B9-63FE67A51DE7}"
+        "ProductCode" = "8:{6CCDA195-22CA-454F-BE7C-21D4B0FD6E7C}"
+        "PackageCode" = "8:{449C754F-D598-4D5E-BE9D-FCB79F294A7B}"
         "UpgradeCode" = "8:{35184162-5484-4BBC-B3A2-5B003E6E2145}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
